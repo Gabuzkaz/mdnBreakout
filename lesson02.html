@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        background: #eee;
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+
+    <script>
+        //Contexto 2D -----------------------------------
+        //Variable "canvas" va a obtener la referencia de un elemento HTML (canvas) cuyo id es "mycanvas"
+        var canvas = document.getElementById("myCanvas");
+        //Variable "ctx" es igual a la activación del “modo de dibujo” 2D dentro de ese canvas para poder dibujar líneas, figuras y animaciones. Resumen: El pincel del canvas.
+        var ctx = canvas.getContext("2d");
+        //-----------------------------------------------
+
+        //Variables de posicionamiento inicial de la bola
+        var x = canvas.width / 2;
+        var y = canvas.height - 30;
+
+        //Variables que sumarán con "x" e "y" para darle movimiento a la bola
+        var dx = 2;
+        var dy = -2;
+
+
+
+
+
+        //----------------Separación Lógica: Dibujo y Movimiento----------
+
+        // DIBUJO BOLA
+       function drawBall() {
+            ctx.beginPath();
+                ctx.arc(x, y, 10, 0, Math.PI * 2);
+                ctx.fillStyle = "#0095DD";
+                ctx.fill();
+            ctx.closePath();
+        }
+
+
+
+        // MOVIMIENTO
+        function draw(){
+            // Limpieza...
+            // xInicio → dónde empieza el borrado en horizontal
+            // yInicio → dónde empieza el borrado en vertical
+            // ancho → cuántos píxeles hacia la derecha se borran
+            // alto → cuántos píxeles hacia abajo se borran
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Llamada a la función para el dibujado de la bola
+            drawBall();
+
+            // Varaibles "x" e "y" que cambian la posición de la bola.
+            x += dx;
+            y += dy;
+        }
+
+        // Iteraciones infinitas de la función "draw" cada 10 ms.
+        setInterval(draw, 10);
+
+
+
+    </script>
+  </body>
+
+
+</html>

@@ -19,9 +19,14 @@
     <canvas id="myCanvas" width="480" height="320"></canvas>
 
     <script>
+        //Contexto 2D -----------------------------------
+        //Variable "canvas" va a obtener la referencia de un elemento HTML (canvas) cuyo id es "mycanvas"
         var canvas = document.getElementById("myCanvas");
+        //Variable "ctx" es igual a la activación del “modo de dibujo” 2D dentro de ese canvas para poder dibujar líneas, figuras y animaciones. Resumen: El pincel del canvas.
         var ctx = canvas.getContext("2d");
+        //-----------------------------------------------
 
+        
         //Rectángulo
         ctx.beginPath();
           ctx.rect(20, 40, 50, 50);

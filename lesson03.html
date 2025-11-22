@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        background: #eee;
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+
+    <script>
+        //Contexto 2D -----------------------------------
+        //Variable "canvas" va a obtener la referencia de un elemento HTML (canvas) cuyo id es "mycanvas"
+        var canvas = document.getElementById("myCanvas");
+        //Variable "ctx" es igual a la activación del “modo de dibujo” 2D dentro de ese canvas para poder dibujar líneas, figuras y animaciones. Resumen: El pincel del canvas.
+        var ctx = canvas.getContext("2d");
+        //-----------------------------------------------
+
+        //Variables de posicionamiento inicial de la bola
+        var x = canvas.width / 2;
+        var y = canvas.height - 30;
+
+        //Variables que sumarán con "x" e "y" para darle movimiento a la bola
+        var dx = 2;
+        var dy = -2;
+
+        //Variable del radio de la Bola
+        var ballRadius = 10;     
+
+
+
+        //----------------Separación Lógica: Dibujo y Movimiento----------
+
+        // DIBUJO BOLA
+       function drawBall() {
+            ctx.beginPath();
+                ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+                ctx.fillStyle = "#0095DD";
+                ctx.fill();
+            ctx.closePath();
+        }
+
+
+
+        // MOVIMIENTO
+        function draw(){
+            // Limpieza...
+            // xInicio → dónde empieza el borrado en horizontal
+            // yInicio → dónde empieza el borrado en vertical
+            // ancho → cuántos píxeles hacia la derecha se borran
+            // alto → cuántos píxeles hacia abajo se borran
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Llamada a la función para el dibujado de la bola
+            drawBall();
+
+            // Varaibles "x" e "y" que cambian la posición de la bola.
+            x += dx;
+            y += dy;
+
+
+            /*  --- VERSIÓN 1 (falta por corregir) ---
+            if (x + dx > canvas.width || x + dx < 0) {
+              dx = -dx;
+            }
+
+            if (y + dy > canvas.height || y + dy < 0) {
+              dy = -dy;
+            }
+            ---------------------------------------- */ 
+
+            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+              //Invierte la variale que va sumando/restando a la posición, NO INVIERTE la posición en sí
+              dx = -dx;
+            }
+            if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+              //Invierte la variale que va sumando/restando a la posición, NO INVIERTE la posición en sí
+              dy = -dy;
+            }
+            
+            // Coordenadas vistas en el log de consola.
+            console.log(x, y)
+        }
+
+        // Iteraciones infinitas de la función "draw" cada 10 ms.
+        setInterval(draw, 100);
+
+
+
+    </script>
+  </body>
+
+
+</html>

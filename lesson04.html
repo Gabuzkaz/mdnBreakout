@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Crear Paleta con movimiento</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        background: #eee;
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+
+    <script>
+        // ---------------------- Sección 1: Contexto 2D ----------------------
+      
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        //---------------------------------------------------------------------
+
+        
+
+
+        // ---------------------- Sección 2: Variables ----------------------
+
+        //---------- Variables de posicionamiento inicial de la bola
+        var x = canvas.width / 2;
+        var y = canvas.height - 30;
+
+        //---------- Variables que sumarán con "x" e "y" para darle movimiento a la bola
+        var dx = 2;
+        var dy = -2;
+
+        //-----------  Variable del radio de la Bola
+        var ballRadius = 10;     
+
+        //-----------  Varaibles de altura y ancho de la paleta
+        var paddleHeight = 10;
+        var paddleWidth = 75;
+
+        // ----------  Posición inicial de la paleta
+        var paddleX = (canvas.width - paddleWidth) / 2;
+        //------------------------------------------------------------------
+
+        //-----------  Variables de pulsación de botones
+        var rightPressed = false;
+        var leftPressed = false;
+
+
+        //------------------------ SECCIÓN 2.5: Eventos --------------------
+
+        //  Listener de Eventos----------------------------------------------
+
+        //  Detecta cuando una tecla es pulsada
+        //  SINTAXIS EXPLICADA: “En toda la página (document), escucha cuando alguien presiona una tecla (keydown) y entonces ejecuta la función keyDownHandler, en modo normal (false).”
+        document.addEventListener("keydown", keyDownHandler, false);
+
+        //  Detecta cuando una tecla deja de ser pulsada
+        document.addEventListener("keyup", keyUpHandler, false);
+
+
+        //  Función activada al pulsar tecla
+        function keyDownHandler(e) {
+            if (e.keyCode == 39) {
+                rightPressed = true; // tecla derecha
+            } else if (e.keyCode == 37) {
+                leftPressed = true;  // tecla izquierda
+            }
+        }
+
+        //  Función activada al dejar de pulsar la tecla
+        function keyUpHandler(e) {
+            if (e.keyCode == 39) {
+                rightPressed = false; // tecla derecha
+            } else if (e.keyCode == 37) {
+                leftPressed = false;  // tecla izquierda
+            }
+        }
+        //-----------------------------------------------------------------------------------------------
+
+
+        //---------------------- Sección 3: Dibujo y Movimiento ----------------------
+
+        // DIBUJO BOLA
+       function drawBall() {
+            ctx.beginPath();
+                ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+                ctx.fillStyle = "#0095DD";
+                ctx.fill();
+            ctx.closePath();
+        }
+
+        // Dibujo de Paleta
+        function drawPaddle() {
+            ctx.beginPath();
+                ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+                ctx.fillStyle = "#0095DD";
+                ctx.fill();
+            ctx.closePath();
+        }
+
+
+        // Dibujado General (Incluye movimiento)
+        function draw(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawBall();
+            drawPaddle(); // Dibujado de la paleta    
+            
+            //Cuando la pelota toca los límites en eje x
+            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+            
+              dx = -dx;
+            }
+            //Cuando la pelota toca los límites en eje y
+            if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+             
+              dy = -dy;
+            }
+
+
+            // Lógica movimiento de la paleta
+            if(rightPressed && (paddleX < canvas.width-paddleWidth)) {
+                //Si se presiona la tecla derecha y el valor de "X" es menor al ancho máximo del canva
+                paddleX += 7;
+            }
+            else if(leftPressed && (paddleX > 0)) {
+                //Si se presiona la tecla izquierda y el valor de ""X" es menor al ancho mínimo del canva
+                paddleX -= 7;
+            }
+            
+
+            x += dx;
+            y += dy;
+
+            
+            // Coordenadas vistas en el log de consola.
+            console.log(x, y)
+        }
+
+        // Iteraciones infinitas de la función "draw" cada 10 ms.
+        setInterval(draw, 10);
+        //----------------------------------------------------------------------------
+
+        
+
+    </script>
+  </body>
+
+
+</html>
